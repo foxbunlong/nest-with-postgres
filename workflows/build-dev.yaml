@@ -1,0 +1,33 @@
+name: build
+on:
+  push:
+    paths:
+      - '!README.md'
+      - '!public/**'
+      - '!uploads/**'
+      - '!test/**'
+      - '**.js'
+      - '**.ts'
+      - '**.yaml'
+    branches:
+      - 'master'
+      - '!develop'
+      - '!feature/**'
+      - '!bugfix/**'
+jobs:
+  build-dev:
+    runs-on: [self-hosted, build, nika]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: master
+      - run: docker build . -t nestjs_api
+      - run: cd /apps/nest-thanhcong-app && docker compose up -d
+      # Implement secret - Not show in console
+      # - run: echo ${{secrets.ACCESS_TOKEN}}
+      # Hidden vars
+      # - run: |
+      #   API_TOKEN=$(node cli.js dqwdqwd)
+      #   echo "API_TOKEN=$API_TOKEN" >> $GITHUB_ENV
+      #   echo "::add-mask::$API_TOKEN"
+      #   echo token $API_TOKEN

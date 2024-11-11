@@ -1,0 +1,10 @@
+.env
+docker-compose-runner.yml
+
+/node_modules
+/dist
+
+# Project generated
+/generated
+
+/local
